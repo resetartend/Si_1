@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Kakao Map</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5091884dcaa812aa2e13f8ee3448f154&autoload=false"></script>
+    <script>
+        let map;
+        let polyline; // 이전 polyline 저장용
+        let startMarker, endMarker, userMarker; // 시작 마커, 끝 마커, 사용자 위치 마커
+
+        kakao.maps.load(function () {
+            const container = document.getElementById('map');
+            const options = {
+                center: new kakao.maps.LatLng(37.379974, 126.803710), // 오이도 거북섬 근처
+                level: 4
+            };
+            map = new kakao.maps.Map(container, options);
+
+            // 사용자의 현재 위치 표시
+            showCurrentLocation();
+
+            // 코스 정보를 URL에서 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            const course = urlParams.get('courseCoords');
+            if (course) {
+                showSelectedCourse(course);
+            }
+        });
+
+        // 사용자의 현재 위치를 표시하는 함수
+        function showCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const loc = new kakao.maps.LatLng(lat, lon);
+
+                        // 사용자 위치 마커
+                        if (userMarker) userMarker.setMap(null);
+                        userMarker = new kakao.maps.Marker({
+                            map: map,
+                            position: loc,
+                            title: "내 위치"
+                        });
+
+                        map.setCenter(loc); // 지도 중심을 사용자의 위치로 설정
+                    },
+                    function () {
+                        alert("📍 위치 정보를 가져올 수 없습니다.");
+                    }
+                );
+            }
+        }
+
+        // 코스를 그리는 함수
+        function drawCourse(coursePath) {
+            if (!map) return;
+
+            if (polyline) polyline.setMap(null);
+            if (startMarker) startMarker.setMap(null);
+            if (endMarker) endMarker.setMap(null);
+
+            map.setCenter(coursePath[Math.floor(coursePath.length / 2)]);
+
+            polyline = new kakao.maps.Polyline({
+                map: map,
+                path: coursePath,
+                strokeWeight: 5,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.9,
+                strokeStyle: 'solid'
+            });
+
+            // 시작 지점 마커
+            startMarker = new kakao.maps.Marker({
+                map: map,
+                position: coursePath[0],
+                title: '시작 지점'
+            });
+
+            // 끝 지점 마커
+            endMarker = new kakao.maps.Marker({
+                map: map,
+                position: coursePath[coursePath.length - 1],
+                title: '끝 지점'
+            });
+        }
+
+        function setCourse1() {
+            const course1 = [
+                new kakao.maps.LatLng(37.329172, 126.671652),
+                new kakao.maps.LatLng(37.320251, 126.685087),
+                new kakao.maps.LatLng(37.318932, 126.691715),
+                new kakao.maps.LatLng(37.316412, 126.699271)
+            ];
+            drawCourse(course1);
+        }
+
+        function setCourse2() {
+            const course2 = [
+                new kakao.maps.LatLng(37.319418, 126.680423),
+                new kakao.maps.LatLng(37.329172, 126.671652),
+                new kakao.maps.LatLng(37.335058, 126.690893),
+            ];
+            drawCourse(course2);
+        }
+
+        function setCourse3() {
+            const course3 = [
+                new kakao.maps.LatLng(37.354057, 126.702404),
+                new kakao.maps.LatLng(37.372510, 126.721673)
+            ];
+            drawCourse(course3);
+        }
+
+        function setCourse4() {
+            const course4 = [
+                new kakao.maps.LatLng(37.355584, 126.712390),
+                new kakao.maps.LatLng(37.340206, 126.733561)
+            ];
+            drawCourse(course4);
+        }
+
+        function setCourse5() {
+            const course5 = [
+                new kakao.maps.LatLng(37.354670, 126.715296),
+                new kakao.maps.LatLng(37.333719, 126.749093)
+            ];
+            drawCourse(course5);
+        }
+
+        function setCourse6() {
+            const course6 = [
+                new kakao.maps.LatLng(37.349066, 126.735422),
+                new kakao.maps.LatLng(37.336848, 126.753012),
+                new kakao.maps.LatLng(37.339831, 126.757507)
+            ];
+            drawCourse(course6);
+        }
+
+        function showSelectedCourse(course) {
+            if (course === "코스1") {
+                setCourse1();
+            } else if (course === "코스2") {
+                setCourse2();
+            } else if (course === "코스3") {
+                setCourse3();
+            } else if (course === "코스4") {
+                setCourse4();
+            } else if (course === "코스5") {
+                setCourse5();
+            } else if (course === "코스6") {
+                setCourse6();
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>

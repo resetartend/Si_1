@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- 상단 콘텐츠: ViewPager, 날짜/시간 버튼, 선택된 정보 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- 코스 선택 ViewPager -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCourses"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"/>
+
+            <!-- 날짜 선택 -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/dateContainer"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </HorizontalScrollView>
+
+            <!-- 시간대 버튼 -->
+            <LinearLayout
+                android:id="@+id/timeButtonContainer"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:weightSum="3"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnMorning"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="오전 7시"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="#000000" />
+
+
+                <Button
+                    android:id="@+id/btnNoon"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="오후 12시"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="#000000" />
+
+
+                <Button
+                    android:id="@+id/btnEvening"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="오후 8시"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <!-- 선택 결과 표시 -->
+            <TextView
+                android:id="@+id/tvSelectedInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜와 시간을 선택하세요"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button_white_border"
+        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+        android:drawablePadding="12dp"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="코스 신청하기"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:elevation="0dp"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/btnViewMatches"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button_white_border"
+        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+        android:drawablePadding="12dp"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="매칭된 런너 조회"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:elevation="0dp"
+        android:stateListAnimator="@null"/>
+
+    <!-- 하단 고정 네비게이션 바 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
+        app:menu="@menu/bottom_nav_menu" />
+</LinearLayout>
